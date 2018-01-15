@@ -1,6 +1,6 @@
 
 const path = require('path');
-const webpack = require('webpack')
+const webpack = require('webpack');
 
 const VENDOR_LIBS = [
   'redux', 'react-redux', 'react-dom'
@@ -8,8 +8,8 @@ const VENDOR_LIBS = [
 
 module.exports = {
   entry: {
-    firstComp: './assets/js/firstComp/firstComp.js',
-    regularJS: './assets/js/regularJS.js',
+    RealEstate: './assets/js/RealEstate/RealEstate.js',
+    // regularJS: './assets/js/regularJS.js',
     vendor: VENDOR_LIBS
   },
   output: { filename: '[name].js',
