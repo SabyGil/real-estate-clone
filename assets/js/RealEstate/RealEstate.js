@@ -26,11 +26,13 @@ class App extends Component {
       filteredData: listingsData,
       populateFormsData: '',
       sorby: 'price-dsc',
-      view: 'long'
+      view: 'box',
+      search: ''
     }
     this.change = this.change.bind(this);
     this.filteredData = this.filteredData.bind(this);
     this.populateForms = this.populateForms.bind(this);
+    this.changeView = this.changeView.bind(this);
   }
   componentWillMount(){
     let listingsData = this.state.listingsData.sort((a, b) => {
@@ -49,7 +51,11 @@ class App extends Component {
       console.log(this.state)
       this.filteredData()
     })
-    // console.log(event.target.value)
+  }
+  changeView(viewName){
+    this.setState({
+      view: viewName
+    })
   }
 
   filteredData(){
@@ -79,6 +85,18 @@ class App extends Component {
     if(this.state.sortby == 'price-asc'){
       newData = newData.sort((a, b) => {
         return b.price - a.price
+      })
+    }
+
+    if(this.state.search != ''){
+      newData = newData.filter((item) => {
+        let city = item.city.toLowerCase();
+        let searchText = this.state.search.toLowerCase();
+        let n = city.match(searchText);
+
+        if(n != null){
+          return true
+        }
       })
     }
 
@@ -129,8 +147,17 @@ class App extends Component {
       <div>
         <Header />
         <section id="content-area">
-          <Filter change={this.change} globalState={this.state} populateAction = { this.populateForms   }/>
-          <Listings listingsData={this.state.filteredData} change={this.change} globalState={this.state}/>
+          <Filter
+          change={this.change}
+          globalState={this.state}
+          populateAction = { this.populateForms }
+        />
+          <Listings
+          listingsData={this.state.filteredData}
+          change={this.change}
+          globalState={this.state}
+          changeView={this.changeView}
+        />
         </section>
       </div>
     );
